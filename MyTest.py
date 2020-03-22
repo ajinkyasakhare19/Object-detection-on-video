@@ -9,7 +9,7 @@ from PIL import Image
 import cv2
 import numpy as np
 import argparse
-
+from DetectColour import DetectColour
 
 # Get arguments from command line ...
 parser = argparse.ArgumentParser()
@@ -21,6 +21,16 @@ parser.add_argument("-o", "--out",
 args = parser.parse_args()
 video=args.video
 yolo = YOLO()
+#Create an object of detect colour class
+detect=DetectColour()
+
+
+Black=(np.array([  0,   0,  27]), np.array([131,  65,  65]))
+Silver=(np.array([117,   0, 122]), np.array([255,  19, 255]))
+Red=(np.array([155,  56,  60]), np.array([190, 170, 197]))
+White=(np.array([ 73,   0, 178]), np.array([140,  21, 255]))
+Blue=(np.array([ 67,  23,  66]), np.array([116, 106, 255]))
+
 
 def main():
     video_capture = cv2.VideoCapture(video)
@@ -49,6 +59,12 @@ def main():
                     bottom = object_box['bottom']
                     right = object_box['right']
                     bounding_box = frame[top:bottom, left:right] # Resulting image of car
+                    
+                    #Get the hsv value of given image
+                    hsv=detect.get_hsv(bounding_box)
+                    #Get the colour of object(Car) from image
+                    colour=detect.get_colour(hsv)
+                    print(colour)#print colour
                     cv2.imshow("Bounding box", bounding_box)#Show image in new window
                     cv2.imwrite(out+str(count)+'.png',bounding_box) #Save image on out directory
                     print("<---- Frame Processed----->")
