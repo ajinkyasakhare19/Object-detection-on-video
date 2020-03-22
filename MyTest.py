@@ -10,6 +10,8 @@ import cv2
 import numpy as np
 import argparse
 from DetectColour import DetectColour
+from CarObject import CarObject
+from Frame import Frame
 
 # Get arguments from command line ...
 parser = argparse.ArgumentParser()
@@ -38,11 +40,14 @@ def main():
     out=args.out
 
     count=0
+    frame_no=0
+
     while True:
         # Capture the input video frame by frame
         ret, frame = video_capture.read()
         if ret == True:
             
+            ObjectsInFrame=[]
             image = Image.fromarray(frame) # Get each frame of video
             
             r_image, object_boxes, time_value = yolo.detect_image(image) #Detect objects from frame and retun image and coordinates with class
@@ -60,6 +65,9 @@ def main():
                     right = object_box['right']
                     bounding_box = frame[top:bottom, left:right] # Resulting image of car
                     
+                    Car=CarObject(bounding_box,'car')
+                    ObjectsInFrame.append(Car)
+                    
                     #Get the hsv value of given image
                     hsv=detect.get_hsv(bounding_box)
                     #Get the colour of object(Car) from image
@@ -71,10 +79,17 @@ def main():
                     count=count+1 #Increase the count
             if cv2.waitKey(25) & 0xFF == ord('q'):
                 break
-        # Break the loop
-        else: 
-            break
-            
+             
+                
+        frame=Frame(frame_no,ObjectsInFrame)
+        frame_no=frame_no+1
+        print("*******")
+        print(frame.getFrame())
+        print(frame.getObjects())
+        print("*******")
+        
+       
+        
     #Once the video is over release video capture
     video_capture.release()
     # Closes all the windows
