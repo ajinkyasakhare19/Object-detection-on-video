@@ -13,19 +13,28 @@ from DetectColour import DetectColour
 from CarObject import CarObject
 from Frame import Frame
 
+# Begin Mani
+from DetectCartype import DetectCartype
+# End
+
 # Get arguments from command line ...
-parser = argparse.ArgumentParser()
+"""parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--video", 
                     help="Video file location")
 parser.add_argument("-o", "--out",
                     help="Output file location")
 
 args = parser.parse_args()
-video=args.video
+video=args.video"""
+#Begin Mani
+video = "./video.mp4"
+#End
 yolo = YOLO()
 #Create an object of detect colour class
 detect=DetectColour()
-
+#Start Mani
+detect_cartype = DetectCartype()
+#End
 
 Black=(np.array([  0,   0,  27]), np.array([131,  65,  65]))
 Silver=(np.array([117,   0, 122]), np.array([255,  19, 255]))
@@ -37,8 +46,9 @@ Blue=(np.array([ 67,  23,  66]), np.array([116, 106, 255]))
 def main():
     video_capture = cv2.VideoCapture(video)
 
-    out=args.out
-
+    """out=args.out
+    """
+    out = "./out/"
     count=0
     frame_no=0
 
@@ -72,6 +82,8 @@ def main():
                     hsv=detect.get_hsv(bounding_box)
                     #Get the colour of object(Car) from image
                     colour=detect.get_colour(hsv)
+                    car_type = detect_cartype.predict_cartype(bounding_box)
+                    print(car_type)
                     print(colour)#print colour
                     cv2.imshow("Bounding box", bounding_box)#Show image in new window
                     cv2.imwrite(out+str(count)+'.png',bounding_box) #Save image on out directory

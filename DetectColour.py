@@ -38,7 +38,7 @@ class DetectColour():
                     
         return(car_colour)#retrun colour name from range specified
 
-#read image file using cv2
+"""#read image file using cv2
 image = cv2.imread('C:\\Users\\ajink\\RTAIAssignment2\\Out\\266.png')
 #Create an object of detect colour class
 detect=DetectColour()
@@ -46,4 +46,4 @@ detect=DetectColour()
 hsv=detect.get_hsv(image)
 #Get the colour of object(Car) from image
 colour=detect.get_colour(hsv)
-print(colour)#print colour
+print(colour)#print colour"""
