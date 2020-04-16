@@ -1,4 +1,4 @@
-# keras-yolo3
+# Object Detection pipeline using Yolo3 and Mobile net
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
@@ -13,7 +13,8 @@ We are using keras implementation of tiny-yolo3 model. You can use YOLO and tiny
 
 1. Download YOLOv3 weights from [YOLO website](http://pjreddie.com/darknet/yolo/).
 2. Convert the Darknet YOLO model to a Keras model.
-3. Run YOLO detection.
+3. Trian mobilenet model for detection of Car type. (https://github.com/keras-team/keras-applications/blob/master/keras_applications/mobilenet.py)
+3. Run application detection.
 
 ```
 wget https://pjreddie.com/media/files/yolov3.weights
@@ -23,7 +24,7 @@ python VideoQueryProcessor.py -Q [1,2,3](Query options)
 
 For Tiny YOLOv3, just do in a similar way, just specify model path and anchor path with `--model model_file` and `--anchors anchor_file`.
 
-### Usage
+### Usage 
 Use --help to see usage of yolo_video.py:
 ```
 usage: yolo_video.py [-h] [--model MODEL] [--anchors ANCHORS]
